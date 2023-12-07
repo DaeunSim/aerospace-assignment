@@ -1,0 +1,88 @@
+{
+  "planet": [
+    {
+      "name": "Mercury",
+      "position": "1",
+      "distance": "91"
+    },
+    {
+      "name": "Venus",
+      "position": "2",
+      "distance": "41"
+    },
+    {
+      "name": "Earth",
+      "position": "3",
+      "distance": "0"
+    },
+    {
+      "name": "Mars",
+      "position": "4",
+      "distance": "78"
+    },
+    {
+      "name": "Jupiter",
+      "position": "5",
+      "distance": "628"
+    },
+    {
+      "name": "Saturn",
+      "position": "6",
+      "distance": "1270"
+    },
+    {
+      "name": "Uranus",
+      "position": "7",
+      "distance": "2720"
+    },
+    {
+      "name": "Neptune",
+      "position": "8",
+      "distance": "4340"
+    }
+  ],
+  "spacecraft": [
+    {
+      "name": "A01",
+      "capacity": "2",
+      "travel": "6000",
+      "tank": "2"
+    },
+    {
+      "name": "A02",
+      "capacity": "5",
+      "travel": "7000",
+      "tank": "2"
+    },
+    {
+      "name": "A03",
+      "capacity": "10",
+      "travel": "8000",
+      "tank": "2"
+    },
+    {
+      "name": "B01",
+      "capacity": "10",
+      "travel": "5500",
+      "tank": "4"
+    },
+    {
+      "name": "B02",
+      "capacity": "14",
+      "travel": "6500",
+      "tank": "4"
+    },
+    {
+      "name": "C01",
+      "capacity": "20",
+      "travel": "30000",
+      "tank": "1"
+    },
+    {
+      "name": "C02",
+      "capacity": "20",
+      "travel": "35000",
+      "tank": "1"
+    }
+  ]
+}
