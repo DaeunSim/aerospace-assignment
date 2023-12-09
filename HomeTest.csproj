@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataSource.cs" />
+    <Compile Include="DataSourceLoader.cs" />
     <Compile Include="InitUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

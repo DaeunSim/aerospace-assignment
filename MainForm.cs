@@ -23,11 +23,29 @@ namespace HomeTest
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            ChangeToInitUserControl();
+        }
+
+        public void ChangeToInitUserControl()
+        {
             InitUserControl initUC = new InitUserControl();
+            this.Controls.Clear();
             this.Controls.Add(initUC);
+            this.Size = new Size(this.Width, 300);
             initUC.Parent = this;
             initUC.Location = new Point(0, 0);
             initUC.Show();
+        }
+
+        public void ChangeToMainUserControl()
+        {
+            MainUserControl mainUC = new MainUserControl();
+            this.Controls.Clear();
+            this.Controls.Add(mainUC);
+            this.Size = new Size(this.Width, 430);
+            mainUC.Parent = this;
+            mainUC.Location = new Point(20, 0);
+            mainUC.Show();
         }
     }
 }

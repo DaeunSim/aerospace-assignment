@@ -34,12 +34,12 @@
             this.routeGbx = new System.Windows.Forms.GroupBox();
             this.destBtn = new System.Windows.Forms.Button();
             this.paxGbx = new System.Windows.Forms.GroupBox();
-            this.numBtn = new System.Windows.Forms.Button();
             this.upBtn = new System.Windows.Forms.Button();
             this.downBtn = new System.Windows.Forms.Button();
             this.craftGbx = new System.Windows.Forms.GroupBox();
             this.saveBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
+            this.numTbx = new System.Windows.Forms.TextBox();
             this.routeGbx.SuspendLayout();
             this.paxGbx.SuspendLayout();
             this.craftGbx.SuspendLayout();
@@ -56,12 +56,14 @@
             // 
             // craftCbx
             // 
+            this.craftCbx.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.craftCbx.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.craftCbx.FormattingEnabled = true;
             this.craftCbx.Location = new System.Drawing.Point(7, 19);
             this.craftCbx.Name = "craftCbx";
             this.craftCbx.Size = new System.Drawing.Size(233, 24);
             this.craftCbx.TabIndex = 2;
+            this.craftCbx.SelectionChangeCommitted += new System.EventHandler(this.craftCbx_SelectionChangeCommitted);
             // 
             // routeLbx
             // 
@@ -91,10 +93,11 @@
             this.destBtn.TabIndex = 7;
             this.destBtn.Text = "Select Destinations";
             this.destBtn.UseVisualStyleBackColor = true;
+            this.destBtn.Click += new System.EventHandler(this.destBtn_Click);
             // 
             // paxGbx
             // 
-            this.paxGbx.Controls.Add(this.numBtn);
+            this.paxGbx.Controls.Add(this.numTbx);
             this.paxGbx.Controls.Add(this.upBtn);
             this.paxGbx.Controls.Add(this.downBtn);
             this.paxGbx.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -105,19 +108,6 @@
             this.paxGbx.TabStop = false;
             this.paxGbx.Text = "PASSENGERS";
             // 
-            // numBtn
-            // 
-            this.numBtn.Enabled = false;
-            this.numBtn.FlatAppearance.BorderSize = 0;
-            this.numBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.numBtn.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.numBtn.Location = new System.Drawing.Point(88, 20);
-            this.numBtn.Name = "numBtn";
-            this.numBtn.Size = new System.Drawing.Size(70, 25);
-            this.numBtn.TabIndex = 12;
-            this.numBtn.Text = "0";
-            this.numBtn.UseVisualStyleBackColor = true;
-            // 
             // upBtn
             // 
             this.upBtn.Location = new System.Drawing.Point(165, 20);
@@ -126,6 +116,7 @@
             this.upBtn.TabIndex = 2;
             this.upBtn.Text = "+";
             this.upBtn.UseVisualStyleBackColor = true;
+            this.upBtn.Click += new System.EventHandler(this.upBtn_Click);
             // 
             // downBtn
             // 
@@ -136,6 +127,7 @@
             this.downBtn.TabIndex = 1;
             this.downBtn.Text = "-";
             this.downBtn.UseVisualStyleBackColor = true;
+            this.downBtn.Click += new System.EventHandler(this.downBtn_Click);
             // 
             // craftGbx
             // 
@@ -157,6 +149,7 @@
             this.saveBtn.TabIndex = 10;
             this.saveBtn.Text = "SAVE";
             this.saveBtn.UseVisualStyleBackColor = true;
+            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
             // 
             // cancelBtn
             // 
@@ -167,6 +160,18 @@
             this.cancelBtn.TabIndex = 11;
             this.cancelBtn.Text = "CANCEL";
             this.cancelBtn.UseVisualStyleBackColor = true;
+            this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
+            // 
+            // numTbx
+            // 
+            this.numTbx.BackColor = System.Drawing.SystemColors.Control;
+            this.numTbx.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numTbx.Location = new System.Drawing.Point(87, 26);
+            this.numTbx.Name = "numTbx";
+            this.numTbx.Size = new System.Drawing.Size(72, 13);
+            this.numTbx.TabIndex = 13;
+            this.numTbx.Text = "0";
+            this.numTbx.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainUserControl
             // 
@@ -179,8 +184,10 @@
             this.Controls.Add(this.craftLbl);
             this.Name = "MainUserControl";
             this.Size = new System.Drawing.Size(280, 380);
+            this.Load += new System.EventHandler(this.MainUserControl_Load);
             this.routeGbx.ResumeLayout(false);
             this.paxGbx.ResumeLayout(false);
+            this.paxGbx.PerformLayout();
             this.craftGbx.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -200,6 +207,6 @@
         private System.Windows.Forms.GroupBox craftGbx;
         private System.Windows.Forms.Button saveBtn;
         private System.Windows.Forms.Button cancelBtn;
-        private System.Windows.Forms.Button numBtn;
+        private System.Windows.Forms.TextBox numTbx;
     }
 }

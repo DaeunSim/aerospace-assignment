@@ -19,12 +19,21 @@ namespace HomeTest
 
         private void newBtn_Click(object sender, EventArgs e)
         {
-            
+            if (this.ParentForm is MainForm form)
+            {
+                form.ChangeToMainUserControl();
+            }
         }
 
         private void loadBtn_Click(object sender, EventArgs e)
         {
-
+            // Load a configured route file
+            // Change to the main user control
+            // Send loaded data
+            if (this.ParentForm is MainForm form)
+            {
+                form.ChangeToMainUserControl();
+            }
         }
     }
 }
