@@ -4,15 +4,17 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HomeTest
 {
-    public partial class MainUserControl : UserControl
+    public partial class MainUserControl : CustomUserControl
     {
         private int maxPassenger;
+        private List<string> selectedDests = new List<string>();
 
         public MainUserControl()
         {
@@ -21,8 +23,6 @@ namespace HomeTest
 
         private void MainUserControl_Load(object sender, EventArgs e)
         {
-            //foreach (var spaceCraft in DataSourceLoader.data.Crafts
-            //    .Select((value, index) => (value, index)))
             foreach (var spaceCraft in DataSourceLoader.data.Crafts)
             {
                 this.craftCbx.Items.Add(spaceCraft.Name.ToString());
@@ -79,7 +79,71 @@ namespace HomeTest
 
         private void destBtn_Click(object sender, EventArgs e)
         {
+            using (RouteForm routeForm = new RouteForm())
+            {
+                // Set location of RouteForm
+                int x = this.ParentForm.Location.X + this.ParentForm.Width - 40;
+                int y = this.ParentForm.Location.Y + 40;
+                routeForm.Location = new Point(x, y);
 
+                // Send planets list to RouteForm
+                routeForm.LoadData(DataSourceLoader.data.Planets.Select(value => value.Name).ToList());
+                var result = routeForm.ShowDialog(this);
+                if (result == DialogResult.Abort)
+                {
+                    Console.Write("Failed to set destination data to the listbox in RouteForm");
+                    MessageBox.Show(" Failed to load data. Unable to open destination selection page."
+                        , "Error"
+                        , MessageBoxButtons.OK
+                        , MessageBoxIcon.Error);
+                }
+                else if (result == DialogResult.OK)
+                {
+                    DisplaySelectedDestinations(routeForm.GetData());
+                }
+            }
+        }
+
+        private void DisplaySelectedDestinations(List<string> selectedDests)
+        {
+            if (selectedDests == null)
+            {
+                MessageBox.Show(
+                    "Failed to calculate the travel route. " +
+                    "Please try to select destination again."
+                    , "Error"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
+                return;
+            }
+
+            this.destLbx.Items.Clear();
+            foreach (var dest in selectedDests)
+            {
+                this.destLbx.Items.Add(dest);
+            }
+        }
+
+        private void CalculateRoute()
+        {
+            // Save the selected destinations to the string list.
+            //if (this.selectedDests == null) this.selectedDests = new List<string>();
+            //this.selectedDests.Clear();
+            //this.selectedDests = selectedDests;
+
+            // Check if the spacecraft and number of passengers are selected.
+            if (this.craftCbx.SelectedItem != null || this.numTbx.Text != null)
+            {
+                MessageBox.Show(
+                    "Cannot be calculated the travel route. " +
+                    "Please check to be chosen the spacecraft and number of passengers."
+                    , "Info"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Information);
+                return;
+            }
+
+            // Calculate the best route
         }
     }
 }

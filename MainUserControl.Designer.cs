@@ -32,14 +32,16 @@
             this.craftCbx = new System.Windows.Forms.ComboBox();
             this.routeLbx = new System.Windows.Forms.ListBox();
             this.routeGbx = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.destLbx = new System.Windows.Forms.ListBox();
             this.destBtn = new System.Windows.Forms.Button();
             this.paxGbx = new System.Windows.Forms.GroupBox();
+            this.numTbx = new System.Windows.Forms.TextBox();
             this.upBtn = new System.Windows.Forms.Button();
             this.downBtn = new System.Windows.Forms.Button();
             this.craftGbx = new System.Windows.Forms.GroupBox();
             this.saveBtn = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
-            this.numTbx = new System.Windows.Forms.TextBox();
             this.routeGbx.SuspendLayout();
             this.paxGbx.SuspendLayout();
             this.craftGbx.SuspendLayout();
@@ -67,23 +69,45 @@
             // 
             // routeLbx
             // 
+            this.routeLbx.BackColor = System.Drawing.Color.White;
             this.routeLbx.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.routeLbx.FormattingEnabled = true;
-            this.routeLbx.Location = new System.Drawing.Point(9, 54);
+            this.routeLbx.Location = new System.Drawing.Point(9, 112);
             this.routeLbx.Name = "routeLbx";
-            this.routeLbx.Size = new System.Drawing.Size(228, 104);
+            this.routeLbx.Size = new System.Drawing.Size(228, 65);
             this.routeLbx.TabIndex = 6;
             // 
             // routeGbx
             // 
+            this.routeGbx.Controls.Add(this.label2);
+            this.routeGbx.Controls.Add(this.destLbx);
             this.routeGbx.Controls.Add(this.destBtn);
             this.routeGbx.Controls.Add(this.routeLbx);
             this.routeGbx.Location = new System.Drawing.Point(15, 154);
             this.routeGbx.Name = "routeGbx";
-            this.routeGbx.Size = new System.Drawing.Size(248, 172);
+            this.routeGbx.Size = new System.Drawing.Size(248, 186);
             this.routeGbx.TabIndex = 7;
             this.routeGbx.TabStop = false;
             this.routeGbx.Text = "ROUTE";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(84, 96);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(90, 13);
+            this.label2.TabIndex = 20;
+            this.label2.Text = "TRAVEL ROUTE";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // destLbx
+            // 
+            this.destLbx.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.destLbx.FormattingEnabled = true;
+            this.destLbx.Location = new System.Drawing.Point(9, 49);
+            this.destLbx.Name = "destLbx";
+            this.destLbx.Size = new System.Drawing.Size(228, 39);
+            this.destLbx.TabIndex = 8;
             // 
             // destBtn
             // 
@@ -107,6 +131,17 @@
             this.paxGbx.TabIndex = 8;
             this.paxGbx.TabStop = false;
             this.paxGbx.Text = "PASSENGERS";
+            // 
+            // numTbx
+            // 
+            this.numTbx.BackColor = System.Drawing.SystemColors.Control;
+            this.numTbx.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.numTbx.Location = new System.Drawing.Point(87, 26);
+            this.numTbx.Name = "numTbx";
+            this.numTbx.Size = new System.Drawing.Size(72, 13);
+            this.numTbx.TabIndex = 13;
+            this.numTbx.Text = "0";
+            this.numTbx.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // upBtn
             // 
@@ -143,7 +178,7 @@
             // saveBtn
             // 
             this.saveBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveBtn.Location = new System.Drawing.Point(194, 341);
+            this.saveBtn.Location = new System.Drawing.Point(194, 346);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(70, 25);
             this.saveBtn.TabIndex = 10;
@@ -154,24 +189,13 @@
             // cancelBtn
             // 
             this.cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cancelBtn.Location = new System.Drawing.Point(116, 341);
+            this.cancelBtn.Location = new System.Drawing.Point(116, 346);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(70, 25);
             this.cancelBtn.TabIndex = 11;
             this.cancelBtn.Text = "CANCEL";
             this.cancelBtn.UseVisualStyleBackColor = true;
             this.cancelBtn.Click += new System.EventHandler(this.cancelBtn_Click);
-            // 
-            // numTbx
-            // 
-            this.numTbx.BackColor = System.Drawing.SystemColors.Control;
-            this.numTbx.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.numTbx.Location = new System.Drawing.Point(87, 26);
-            this.numTbx.Name = "numTbx";
-            this.numTbx.Size = new System.Drawing.Size(72, 13);
-            this.numTbx.TabIndex = 13;
-            this.numTbx.Text = "0";
-            this.numTbx.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // MainUserControl
             // 
@@ -186,6 +210,7 @@
             this.Size = new System.Drawing.Size(280, 380);
             this.Load += new System.EventHandler(this.MainUserControl_Load);
             this.routeGbx.ResumeLayout(false);
+            this.routeGbx.PerformLayout();
             this.paxGbx.ResumeLayout(false);
             this.paxGbx.PerformLayout();
             this.craftGbx.ResumeLayout(false);
@@ -208,5 +233,7 @@
         private System.Windows.Forms.Button saveBtn;
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.TextBox numTbx;
+        private System.Windows.Forms.ListBox destLbx;
+        private System.Windows.Forms.Label label2;
     }
 }

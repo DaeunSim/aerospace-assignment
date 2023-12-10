@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace HomeTest
 {
-    public partial class MainForm : Form
+    public partial class MainForm : CustomForm
     {
         public MainForm()
         {

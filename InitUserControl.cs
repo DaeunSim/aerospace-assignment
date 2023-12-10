@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace HomeTest
 {
-    public partial class InitUserControl : UserControl
+    public partial class InitUserControl : CustomUserControl
     {
         public InitUserControl()
         {
