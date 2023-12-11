@@ -25,20 +25,24 @@ namespace HomeTest
                 this.Close();
             }
 
-            this.SetBorderLine = true;
-
             this.toolTip.SetToolTip(
                 this.addBtn, 
                 "Add the planets you want to travel to in sequence.\n" +
                 "The planets you add will be displayed\nin the left component in the same order.");
         }
 
-        public void LoadData(List<string> planets)
+        public void LoadData(List<string> planets, List<string> destinations)
         {
             if (planets == null || planets.Count == 0) return;
             foreach (string planet in planets)
             {
                 if (planet != null) destLbx.Items.Add(planet);
+            }
+
+            if (destinations == null) return;
+            foreach (string dest in destinations)
+            {
+                if (dest != null) selectedLbx.Items.Add(dest);
             }
         }
 
@@ -68,9 +72,9 @@ namespace HomeTest
                 MessageBox.Show(
                     "Please select a different planet. " +
                     "The destination planet is the same as the department planet."
-                    , "Info"
+                    , "Warning"
                     , MessageBoxButtons.OK
-                    , MessageBoxIcon.Information);
+                    , MessageBoxIcon.Warning);
                 return;
             }
 
@@ -104,7 +108,7 @@ namespace HomeTest
             this.Close();
         }
 
-        private void saveBtn_Click(object sender, EventArgs e)
+        private void okayBtn_Click(object sender, EventArgs e)
         {
             if (this.selectedLbx.Items.Count == 0)
             {

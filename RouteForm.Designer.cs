@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RouteForm));
-            this.saveBtn = new System.Windows.Forms.Button();
+            this.okayBtn = new System.Windows.Forms.Button();
             this.mainGbx = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.selectedLbx = new System.Windows.Forms.ListBox();
@@ -43,16 +43,16 @@
             this.mainGbx.SuspendLayout();
             this.SuspendLayout();
             // 
-            // saveBtn
+            // okayBtn
             // 
-            this.saveBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveBtn.Location = new System.Drawing.Point(279, 278);
-            this.saveBtn.Name = "saveBtn";
-            this.saveBtn.Size = new System.Drawing.Size(70, 25);
-            this.saveBtn.TabIndex = 12;
-            this.saveBtn.Text = "SAVE";
-            this.saveBtn.UseVisualStyleBackColor = true;
-            this.saveBtn.Click += new System.EventHandler(this.saveBtn_Click);
+            this.okayBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.okayBtn.Location = new System.Drawing.Point(279, 281);
+            this.okayBtn.Name = "okayBtn";
+            this.okayBtn.Size = new System.Drawing.Size(70, 25);
+            this.okayBtn.TabIndex = 12;
+            this.okayBtn.Text = "OK";
+            this.okayBtn.UseVisualStyleBackColor = true;
+            this.okayBtn.Click += new System.EventHandler(this.okayBtn_Click);
             // 
             // mainGbx
             // 
@@ -120,17 +120,17 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(227, -2);
+            this.label1.Location = new System.Drawing.Point(240, -2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(87, 26);
+            this.label1.Size = new System.Drawing.Size(63, 26);
             this.label1.TabIndex = 1;
-            this.label1.Text = "SELECTED\r\nDESTINATIONS";
+            this.label1.Text = "SELECTED\r\n PLANETS";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // cancelBtn
             // 
             this.cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cancelBtn.Location = new System.Drawing.Point(201, 278);
+            this.cancelBtn.Location = new System.Drawing.Point(201, 281);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(70, 25);
             this.cancelBtn.TabIndex = 13;
@@ -149,16 +149,15 @@
             this.ClientSize = new System.Drawing.Size(360, 320);
             this.Controls.Add(this.mainGbx);
             this.Controls.Add(this.cancelBtn);
-            this.Controls.Add(this.saveBtn);
-            this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Controls.Add(this.okayBtn);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "RouteForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
-            this.Text = "RouteForm";
+            this.Text = "SELECT DESTINATIONS";
             this.Load += new System.EventHandler(this.RouteForm_Load);
             this.mainGbx.ResumeLayout(false);
             this.mainGbx.PerformLayout();
@@ -167,7 +166,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.Button saveBtn;
+        private System.Windows.Forms.Button okayBtn;
         private System.Windows.Forms.GroupBox mainGbx;
         private System.Windows.Forms.ListBox destLbx;
         private System.Windows.Forms.Label label1;

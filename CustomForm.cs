@@ -29,21 +29,5 @@ namespace HomeTest
                 return cp;
             }
         }
-
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            // This is for RouteForm's border line.
-            // New features to customize color, width, and style are needed.
-            if (this.SetBorderLine)
-            {
-                ControlPaint.DrawBorder(e.Graphics, ClientRectangle
-                    , Color.LightSlateGray, 3, ButtonBorderStyle.Solid
-                    , Color.LightSlateGray, 3, ButtonBorderStyle.Solid
-                    , Color.LightSlateGray, 3, ButtonBorderStyle.Solid
-                    , Color.LightSlateGray, 3, ButtonBorderStyle.Solid);
-            }
-        }
     }
 }

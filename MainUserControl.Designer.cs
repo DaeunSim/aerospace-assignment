@@ -32,7 +32,7 @@
             this.craftCbx = new System.Windows.Forms.ComboBox();
             this.routeLbx = new System.Windows.Forms.ListBox();
             this.routeGbx = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.checkBtn = new System.Windows.Forms.Button();
             this.destLbx = new System.Windows.Forms.ListBox();
             this.destBtn = new System.Windows.Forms.Button();
             this.paxGbx = new System.Windows.Forms.GroupBox();
@@ -72,33 +72,34 @@
             this.routeLbx.BackColor = System.Drawing.Color.White;
             this.routeLbx.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.routeLbx.FormattingEnabled = true;
-            this.routeLbx.Location = new System.Drawing.Point(9, 112);
+            this.routeLbx.Location = new System.Drawing.Point(10, 129);
             this.routeLbx.Name = "routeLbx";
             this.routeLbx.Size = new System.Drawing.Size(228, 65);
             this.routeLbx.TabIndex = 6;
             // 
             // routeGbx
             // 
-            this.routeGbx.Controls.Add(this.label2);
+            this.routeGbx.Controls.Add(this.checkBtn);
             this.routeGbx.Controls.Add(this.destLbx);
             this.routeGbx.Controls.Add(this.destBtn);
             this.routeGbx.Controls.Add(this.routeLbx);
-            this.routeGbx.Location = new System.Drawing.Point(15, 154);
+            this.routeGbx.Location = new System.Drawing.Point(15, 144);
             this.routeGbx.Name = "routeGbx";
-            this.routeGbx.Size = new System.Drawing.Size(248, 186);
+            this.routeGbx.Size = new System.Drawing.Size(248, 206);
             this.routeGbx.TabIndex = 7;
             this.routeGbx.TabStop = false;
             this.routeGbx.Text = "ROUTE";
             // 
-            // label2
+            // checkBtn
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(84, 96);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(90, 13);
-            this.label2.TabIndex = 20;
-            this.label2.Text = "TRAVEL ROUTE";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.checkBtn.BackColor = System.Drawing.Color.White;
+            this.checkBtn.Location = new System.Drawing.Point(8, 101);
+            this.checkBtn.Name = "checkBtn";
+            this.checkBtn.Size = new System.Drawing.Size(233, 25);
+            this.checkBtn.TabIndex = 9;
+            this.checkBtn.Text = "Check available a route";
+            this.checkBtn.UseVisualStyleBackColor = false;
+            this.checkBtn.Click += new System.EventHandler(this.checkBtn_Click);
             // 
             // destLbx
             // 
@@ -115,7 +116,7 @@
             this.destBtn.Name = "destBtn";
             this.destBtn.Size = new System.Drawing.Size(233, 25);
             this.destBtn.TabIndex = 7;
-            this.destBtn.Text = "Select Destinations";
+            this.destBtn.Text = "Select destinations";
             this.destBtn.UseVisualStyleBackColor = true;
             this.destBtn.Click += new System.EventHandler(this.destBtn_Click);
             // 
@@ -125,7 +126,7 @@
             this.paxGbx.Controls.Add(this.upBtn);
             this.paxGbx.Controls.Add(this.downBtn);
             this.paxGbx.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.paxGbx.Location = new System.Drawing.Point(15, 84);
+            this.paxGbx.Location = new System.Drawing.Point(15, 79);
             this.paxGbx.Name = "paxGbx";
             this.paxGbx.Size = new System.Drawing.Size(248, 56);
             this.paxGbx.TabIndex = 8;
@@ -178,7 +179,7 @@
             // saveBtn
             // 
             this.saveBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveBtn.Location = new System.Drawing.Point(194, 346);
+            this.saveBtn.Location = new System.Drawing.Point(194, 356);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(70, 25);
             this.saveBtn.TabIndex = 10;
@@ -189,7 +190,7 @@
             // cancelBtn
             // 
             this.cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cancelBtn.Location = new System.Drawing.Point(116, 346);
+            this.cancelBtn.Location = new System.Drawing.Point(116, 356);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(70, 25);
             this.cancelBtn.TabIndex = 11;
@@ -207,10 +208,9 @@
             this.Controls.Add(this.routeGbx);
             this.Controls.Add(this.craftLbl);
             this.Name = "MainUserControl";
-            this.Size = new System.Drawing.Size(280, 380);
+            this.Size = new System.Drawing.Size(280, 390);
             this.Load += new System.EventHandler(this.MainUserControl_Load);
             this.routeGbx.ResumeLayout(false);
-            this.routeGbx.PerformLayout();
             this.paxGbx.ResumeLayout(false);
             this.paxGbx.PerformLayout();
             this.craftGbx.ResumeLayout(false);
@@ -234,6 +234,6 @@
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.TextBox numTbx;
         private System.Windows.Forms.ListBox destLbx;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button checkBtn;
     }
 }

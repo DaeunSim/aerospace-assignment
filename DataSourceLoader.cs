@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -44,6 +46,34 @@ namespace HomeTest
                 return false;
             }
             return true;
+        }
+
+        public static bool WriteDataToJson(string path, Object obj)
+        {
+            try
+            {
+                using (FileStream fileStream = File.Create(path))
+                {
+                    var option = new JsonSerializerOptions { WriteIndented = true };
+                    string jsonStr = JsonSerializer.Serialize(obj, option);
+                    File.WriteAllText(path, jsonStr);
+                }
+            }
+            catch (IOException e)
+            {
+                Console.Write(e.ToString());
+                MessageBox.Show(" Failed to save the data."
+                    , "Error"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
+                return false;
+            }
+            return true;
+        }
+
+        public static void ReadDataFromJson(string path)
+        {
+
         }
     }
 }
