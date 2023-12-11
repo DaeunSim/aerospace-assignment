@@ -69,12 +69,12 @@
             // 
             // routeLbx
             // 
-            this.routeLbx.BackColor = System.Drawing.Color.White;
+            this.routeLbx.BackColor = System.Drawing.SystemColors.Window;
             this.routeLbx.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.routeLbx.FormattingEnabled = true;
-            this.routeLbx.Location = new System.Drawing.Point(10, 129);
+            this.routeLbx.Location = new System.Drawing.Point(10, 136);
             this.routeLbx.Name = "routeLbx";
-            this.routeLbx.Size = new System.Drawing.Size(228, 65);
+            this.routeLbx.Size = new System.Drawing.Size(228, 52);
             this.routeLbx.TabIndex = 6;
             // 
             // routeGbx
@@ -85,7 +85,7 @@
             this.routeGbx.Controls.Add(this.routeLbx);
             this.routeGbx.Location = new System.Drawing.Point(15, 144);
             this.routeGbx.Name = "routeGbx";
-            this.routeGbx.Size = new System.Drawing.Size(248, 206);
+            this.routeGbx.Size = new System.Drawing.Size(248, 199);
             this.routeGbx.TabIndex = 7;
             this.routeGbx.TabStop = false;
             this.routeGbx.Text = "ROUTE";
@@ -93,7 +93,7 @@
             // checkBtn
             // 
             this.checkBtn.BackColor = System.Drawing.Color.White;
-            this.checkBtn.Location = new System.Drawing.Point(8, 101);
+            this.checkBtn.Location = new System.Drawing.Point(8, 108);
             this.checkBtn.Name = "checkBtn";
             this.checkBtn.Size = new System.Drawing.Size(233, 25);
             this.checkBtn.TabIndex = 9;
@@ -107,7 +107,7 @@
             this.destLbx.FormattingEnabled = true;
             this.destLbx.Location = new System.Drawing.Point(9, 49);
             this.destLbx.Name = "destLbx";
-            this.destLbx.Size = new System.Drawing.Size(228, 39);
+            this.destLbx.Size = new System.Drawing.Size(228, 52);
             this.destLbx.TabIndex = 8;
             // 
             // destBtn
@@ -179,7 +179,7 @@
             // saveBtn
             // 
             this.saveBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveBtn.Location = new System.Drawing.Point(194, 356);
+            this.saveBtn.Location = new System.Drawing.Point(194, 354);
             this.saveBtn.Name = "saveBtn";
             this.saveBtn.Size = new System.Drawing.Size(70, 25);
             this.saveBtn.TabIndex = 10;
@@ -190,7 +190,7 @@
             // cancelBtn
             // 
             this.cancelBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cancelBtn.Location = new System.Drawing.Point(116, 356);
+            this.cancelBtn.Location = new System.Drawing.Point(116, 354);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(70, 25);
             this.cancelBtn.TabIndex = 11;

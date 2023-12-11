@@ -9,7 +9,7 @@ namespace HomeTest
     public class SpaceCraft
     {
         public string Name { get; set; }
-        public int Capacity { get; set; } // availabe number of passengers
+        public int Capacity { get; set; } // maximum number of passengers
         public int Distance { get; set; } // availabe travel distance (million km)
         public int Tank { get; set; } // number of tank of spacecraft
         public SpaceCraft(string name, int capacity, int distance, int tank)

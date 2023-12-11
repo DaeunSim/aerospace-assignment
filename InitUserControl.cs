@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 
 namespace HomeTest
@@ -27,12 +21,41 @@ namespace HomeTest
 
         private void loadBtn_Click(object sender, EventArgs e)
         {
-            // Load a configured route file
-            // Change to the main user control
-            // Send loaded data
-            if (this.ParentForm is MainForm form)
+            try
             {
-                form.ChangeToMainUserControl();
+                using (OpenFileDialog openFileDialog = new OpenFileDialog())
+                {
+                    string app = Application.StartupPath;
+                    string dir = Path.Combine(app, "Route");
+                    if (!FileHandler.CheckDirectoryExists(dir))
+                        throw new Exception("Route directory does not exist.");
+
+                    openFileDialog.InitialDirectory = dir;
+                    openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
+                    openFileDialog.FilterIndex = 2;
+                    openFileDialog.RestoreDirectory = true;
+
+                    if (openFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        string file = openFileDialog.FileName;
+                        if (!FileHandler.CheckFileExists(file))
+                            throw new Exception("Selected file does not exist.");
+
+                        if (this.ParentForm is MainForm form)
+                        {
+                            form.ChangeToMainUserControl(false, file);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Cannot load the travel route.\n" +
+                    ex.Message
+                    , "Error"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
             }
         }
     }

@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace HomeTest
@@ -60,17 +55,29 @@ namespace HomeTest
             {
                 MessageBox.Show(
                     "Please select a planet."
-                    , "Info"
+                    , "Warning"
                     , MessageBoxButtons.OK
-                    , MessageBoxIcon.Information);
+                    , MessageBoxIcon.Warning);
                 return;
             }
 
+            if (this.selectedLbx.Items.Count == 0 && newItem == "Earth")
+            {
+                MessageBox.Show(
+                    "Please select a different planet.\n" +
+                    "This travel will start from Earth."
+                    , "Warning"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Warning);
+                return;
+            }
+
+            // The last selected planet cannot be the same with the newly selected planet
             string selectedItem = this.selectedLbx.Items.Count == 0 ? null : this.selectedLbx.Items[this.selectedLbx.Items.Count - 1].ToString();
             if (newItem == selectedItem)
             {
                 MessageBox.Show(
-                    "Please select a different planet. " +
+                    "Please select a different planet.\n" +
                     "The destination planet is the same as the department planet."
                     , "Warning"
                     , MessageBoxButtons.OK
@@ -85,7 +92,7 @@ namespace HomeTest
         {
             if (this.selectedLbx.Items.Count == 0 || this.selectedLbx.SelectedItem == null) return;
             
-            // Check the previous planet and the next planet from the selected plaent
+            // It cannot be located on the same planet consecutively
             int selectedIndex = this.selectedLbx.SelectedIndex;
             if ((selectedIndex-1>=0 && selectedIndex+1<this.selectedLbx.Items.Count) &&
                 (this.selectedLbx.Items[selectedIndex-1] == this.selectedLbx.Items[selectedIndex+1]))

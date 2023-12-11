@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace HomeTest
 {
@@ -37,7 +26,7 @@ namespace HomeTest
             initUC.Show();
         }
 
-        public void ChangeToMainUserControl()
+        public void ChangeToMainUserControl(bool selectedNewData = true, string file = null)
         {
             MainUserControl mainUC = new MainUserControl();
             this.Controls.Clear();
@@ -46,6 +35,11 @@ namespace HomeTest
             mainUC.Parent = this;
             mainUC.Location = new Point(20, 0);
             mainUC.Show();
+
+            if (!selectedNewData && file != null) 
+            {
+                mainUC.SetDataToControls(FileHandler.ReadDataFromTextFile(file));
+            }
         }
     }
 }

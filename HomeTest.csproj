@@ -88,6 +88,7 @@
     </Compile>
     <Compile Include="DataSource.cs" />
     <Compile Include="DataSourceLoader.cs" />
+    <Compile Include="FileHandler.cs" />
     <Compile Include="InitUserControl.cs">
       <SubType>UserControl</SubType>
     </Compile>

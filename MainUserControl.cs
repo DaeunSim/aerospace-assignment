@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace HomeTest
 {
@@ -85,7 +80,8 @@ namespace HomeTest
                 if (result == DialogResult.Abort)
                 {
                     MessageBox.Show(
-                        "Failed to load data. Unable to open destination selection page."
+                        "Failed to load data.\n" +
+                        "Unable to open destination selection page."
                         , "Error"
                         , MessageBoxButtons.OK
                         , MessageBoxIcon.Error);
@@ -103,16 +99,15 @@ namespace HomeTest
             if (selectedDests == null || selectedDests.Count == 0)
             {
                 MessageBox.Show(
-                    "Failed to get data. " +
-                    "Please try selecting destination again."
+                    "Failed to get data.\n" +
+                    "Please try selecting destinations again."
                     , "Error"
                     , MessageBoxButtons.OK
                     , MessageBoxIcon.Error);
                 return;
             }
 
-            this.destLbx.Items.Clear();
-            this.selectedDests.Clear();
+            ClearSelectedDestination();
             foreach (var dest in selectedDests)
             {
                 this.destLbx.Items.Add(dest);
@@ -122,8 +117,14 @@ namespace HomeTest
 
         private void ClearCalculatedRoute()
         {
-            if (route != null) route.Clear();
+            if (this.route != null) this.route.Clear();
             this.routeLbx.Items.Clear();
+        }
+
+        private void ClearSelectedDestination()
+        {
+            if (this.selectedDests != null) this.selectedDests.Clear();
+            this.destLbx.Items.Clear();
         }
 
         private void checkBtn_Click(object sender, EventArgs e)
@@ -134,11 +135,11 @@ namespace HomeTest
 
         private void CalculateRoute()
         {
-            // Check if the spacecraft, number of passengers, and destinations are selected.
+            // Check spacecraft, number of passengers, and destinations are selected.
             if (this.craftCbx.SelectedItem == null || this.numTbx.Text == null || this.destLbx.Items.Count == 0)
             {
                 MessageBox.Show(
-                    "Cannot calculate the travel route. " +
+                    "Cannot calculate the travel route.\n" +
                     "Please ensure all options are selected."
                     , "Warning"
                     , MessageBoxButtons.OK
@@ -146,27 +147,27 @@ namespace HomeTest
                 return;
             }
 
-            // Calculate the best route
+            // Calculate the travel route
             route.Clear();
             var spacecraft = DataSourceLoader.data.Crafts.FirstOrDefault(x => x.Name == this.craftCbx.SelectedItem.ToString());
             int passengers = Int32.Parse(this.numTbx.Text);
 
-            // Available travel distance of the selected spacecraft
+            // Calculate available travel distance of the selected spacecraft
             int travelDistance = spacecraft.Distance * spacecraft.Tank;
             if (passengers == spacecraft.Capacity)
                 travelDistance = (int)(travelDistance * 0.7);
 
-            // Calculate distance between planets
+            // Get distance from Earth to first planet
             int earthPosition = DataSourceLoader.data.Planets.FirstOrDefault(x => x.Name == "Earth").Position;
-
-            // 1. Get distance from Earth to first planet
             var firstPoint = DataSourceLoader.data.Planets.FirstOrDefault(x => x.Name == this.selectedDests[0]);
             int sumDistance = firstPoint.Distance;
+            
+            // Check the spacecraft can travel to the next planet
             if (!canTravelToNextPlanet(sumDistance+firstPoint.Distance, travelDistance, firstPoint.Name)) return;
 
             for (int i = 1; i < this.selectedDests.Count; i++)
             {
-                // 2. Get distance between first planet and second planet
+                // Get distance between first planet and second planet
                 var secondPoint = DataSourceLoader.data.Planets.FirstOrDefault(x => x.Name == this.selectedDests[i]);
                 if ((earthPosition > firstPoint.Position && earthPosition > secondPoint.Position)
                     || (earthPosition < firstPoint.Position && earthPosition < secondPoint.Position))
@@ -179,7 +180,7 @@ namespace HomeTest
                 else if (earthPosition == secondPoint.Position)
                     sumDistance += firstPoint.Distance;
 
-                // 3. Check the spacecraft can travel to the next planet
+                // Check the spacecraft can travel to the next planet
                 if (!canTravelToNextPlanet(sumDistance+secondPoint.Distance, travelDistance, secondPoint.Name)) break;
                 firstPoint = secondPoint;
             }
@@ -222,20 +223,116 @@ namespace HomeTest
             }
         }
 
+        /*
+         * Route file format
+         * 
+         * SPACECRAFT: 
+         * PASSENGERS:
+         * DESTINATIONS: 
+         * ROUTE:
+         */
+        private string GetDataFromControls()
+        {
+            if (this.craftCbx.SelectedItem == null || this.destLbx.Items == null || this.routeLbx.Items == null) return null;
+
+            var str = $"SPACECRAFT:{this.craftCbx.SelectedItem}\n";
+            str += $"PASSENGERS:{this.numTbx.Text}\n";
+            str += $"DESTINATIONS:{string.Join(",", this.destLbx.Items.OfType<string>().ToArray())}\n";
+            str += $"ROUTE:{string.Join(",", this.routeLbx.Items.OfType<string>().ToArray())}";
+            return str;
+        }
+
+        public void SetDataToControls(Dictionary<string, object> data)
+        {
+            if (data == null || data == null || data.Count == 0) return;
+
+            string name = (string)data["spacecraft"];
+            if (name != null && DataSourceLoader.data.Crafts.Any(c => c.Name == name)) 
+                this.craftCbx.SelectedItem = name;
+
+            int passengers = Int32.Parse((string)data["passengers"]);
+            var craft = DataSourceLoader.data.Crafts.FirstOrDefault<SpaceCraft>(c => c.Name == name);
+            if (passengers == 0 || craft == null) return;
+
+            maxPassenger = craft.Capacity;
+            if (passengers <= maxPassenger)
+                this.numTbx.Text = passengers.ToString();
+
+            string dests = (string)data["destinations"];
+            if (dests == null) return;
+
+            ClearSelectedDestination();
+            foreach (var dest in dests.Split(','))
+            {
+                if (DataSourceLoader.data.Planets.Any(p => p.Name == dest))
+                {
+                    this.selectedDests.Add(dest);
+                    this.destLbx.Items.Add(dest);
+                }
+            }
+
+            string route = (string)data["route"];
+            if (route == null) return;
+
+            ClearCalculatedRoute();
+            foreach (var planet in route.Split(','))
+            {
+                if (DataSourceLoader.data.Planets.Any(p => p.Name == planet))
+                {
+                    this.route.Add(planet);
+                    this.routeLbx.Items.Add(planet);
+                }
+            }
+        }
+
         private void saveBtn_Click(object sender, EventArgs e)
         {
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.InitialDirectory = @"C:\";
-            dialog.Title = "Save text Files";
-            dialog.CheckFileExists = true;
-            dialog.CheckPathExists = true;
-            dialog.DefaultExt = "json";
-            dialog.Filter = "Json files (*.json)|*.json|All files (*.*)|*.*";
-            dialog.FilterIndex = 2;
-            dialog.RestoreDirectory = true;
-            if (dialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                
+                // 1. Check if all forms are filled and get data from controls
+                string content = GetDataFromControls();
+                if (content == null)
+                    throw new Exception("Not all forms are filled.");
+
+                // 2. Create Route directory in the folder where this app is located
+                var app = Application.StartupPath;
+                var dir = Path.Combine(app, "Route");
+                if (!FileHandler.CreateNewDirectory(dir))
+                    throw new Exception("Failed to create Route directory.");
+
+                // 3. Save the travel route into a text file
+                using (SaveFileDialog dialog = new SaveFileDialog())
+                {
+                    dialog.InitialDirectory = dir;
+                    dialog.Title = "Save the travel route";
+                    dialog.DefaultExt = "text";
+                    dialog.Filter = "txt files (*.txt)|*.txt";
+                    dialog.FilterIndex = 2;
+                    dialog.RestoreDirectory = true;
+
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        string file = Path.Combine(dir, dialog.FileName);
+                        if (!FileHandler.WriteDataToTextFile(file, content))
+                            throw new Exception("Failed to save data into the text file.");
+
+                        MessageBox.Show(
+                            "The travel route is saved successfully."
+                            , "Info"
+                            , MessageBoxButtons.OK
+                            , MessageBoxIcon.Information);
+                    }
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(
+                    "Cannot save the travel route.\n" +
+                    ex.Message
+                    , "Error"
+                    , MessageBoxButtons.OK
+                    , MessageBoxIcon.Error);
+            }
+        }
     }
 }
