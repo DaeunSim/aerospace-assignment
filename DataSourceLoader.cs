@@ -24,22 +24,36 @@ namespace HomeTest
                 {
                     string jsonStr = reader.ReadToEnd();
                     JsonNode jsonObj = JsonNode.Parse(jsonStr);
-                    foreach (JsonNode obj in (JsonArray)jsonObj["planet"])
+                    foreach (JsonNode obj in (JsonArray)jsonObj["planets"])
                     {
+                        // If any of the data is null, the data source is considered unreadable
                         data.Planets.Add(
-                            new Planet((string)obj["name"], Int32.Parse(obj["position"].ToString()), Int32.Parse(obj["distance"].ToString())));
+                            new Planet(
+                                (string)obj["name"],
+                                int.Parse(obj["positionIndex"].ToString()),
+                                double.Parse(obj["distanceFromEarth"].ToString()),
+                                bool.Parse(obj["habitable"].ToString()),
+                                int.Parse(obj["diameter"].ToString()),
+                                int.Parse(obj["averageTemperature"].ToString()),
+                                bool.Parse(obj["isDwarf"]!=null?obj["isDwarf"].ToString():"false"))); // for testing
                     }
-                    foreach (JsonNode obj in (JsonArray)jsonObj["spacecraft"])
+                    foreach (JsonNode obj in (JsonArray)jsonObj["spacecrafts"])
                     {
                         data.Crafts.Add(
-                            new SpaceCraft((string)obj["name"], Int32.Parse(obj["capacity"].ToString()), Int32.Parse(obj["travel"].ToString()), Int32.Parse(obj["tank"].ToString())));
+                            new SpaceCraft(
+                                (string)obj["name"],
+                                (string)obj["type"],
+                                int.Parse(obj["capacity"].ToString()),
+                                int.Parse(obj["maxTravelDistance"].ToString()),
+                                bool.Parse(obj["gravityGenerator"].ToString()),
+                                bool.Parse(obj["asteroidDeflector"].ToString())));
                     }
                 }
             }
-            catch (IOException e)
+            catch (Exception e)
             {
                 Console.Write(e.ToString());
-                MessageBox.Show(" Failed to load the data. Unable to run the program"
+                MessageBox.Show("Failed to load the data.\nUnable to run the program."
                     , "Error"
                     , MessageBoxButtons.OK
                     , MessageBoxIcon.Error);

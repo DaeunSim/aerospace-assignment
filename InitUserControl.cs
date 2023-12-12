@@ -28,7 +28,7 @@ namespace HomeTest
                     string app = Application.StartupPath;
                     string dir = Path.Combine(app, "Route");
                     if (!FileHandler.CheckDirectoryExists(dir))
-                        throw new Exception("Route directory does not exist.");
+                        throw new Exception("There is no saved file.");
 
                     openFileDialog.InitialDirectory = dir;
                     openFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";

@@ -53,13 +53,9 @@ namespace HomeTest
             {
                 if (!Directory.Exists(path))
                 {
-                    Console.WriteLine("The directory exists already.");
-                    return false;
+                    DirectoryInfo di = Directory.CreateDirectory(path);
+                    Console.WriteLine($"The directory is created successfully.\n{di.CreationTimeUtc}");
                 }
-
-                DirectoryInfo di = Directory.CreateDirectory(path);
-                Console.WriteLine($"The directory is created successfully.\n{di.CreationTimeUtc}");
-
             }
             catch (Exception e)
             {

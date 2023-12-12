@@ -141,7 +141,7 @@
             this.numTbx.Name = "numTbx";
             this.numTbx.Size = new System.Drawing.Size(72, 13);
             this.numTbx.TabIndex = 13;
-            this.numTbx.Text = "0";
+            this.numTbx.Text = "1";
             this.numTbx.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // upBtn
@@ -209,7 +209,6 @@
             this.Controls.Add(this.craftLbl);
             this.Name = "MainUserControl";
             this.Size = new System.Drawing.Size(280, 390);
-            this.Load += new System.EventHandler(this.MainUserControl_Load);
             this.routeGbx.ResumeLayout(false);
             this.paxGbx.ResumeLayout(false);
             this.paxGbx.PerformLayout();

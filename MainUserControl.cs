@@ -5,6 +5,8 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using System.Xml.Linq;
 
 namespace HomeTest
 {
@@ -12,14 +14,14 @@ namespace HomeTest
     {
         private int maxPassenger;
         private List<string> selectedDests = new List<string>();
-        private List<string> route = new List<string>();
+        private List<string> calculatedRoute = new List<string>();
 
         public MainUserControl()
         {
             InitializeComponent();
         }
 
-        private void MainUserControl_Load(object sender, EventArgs e)
+        public void InitData()
         {
             foreach (var spaceCraft in DataSourceLoader.data.Crafts)
             {
@@ -36,17 +38,19 @@ namespace HomeTest
             string selectedItem = this.craftCbx.Text;
             if (selectedItem != null)
             {
-                int index = Int32.Parse(this.craftCbx.SelectedIndex.ToString());
+                int index = int.Parse(this.craftCbx.SelectedIndex.ToString());
                 int maxCapacity = DataSourceLoader.data.Crafts[index].Capacity;
-                
+
                 this.maxPassenger = maxCapacity;
                 this.numTbx.Text = "1";
+
+                ClearCalculatedRoute();
             }
         }
 
         private void downBtn_Click(object sender, EventArgs e)
         {
-            int cntNum = Int32.Parse(this.numTbx.Text);
+            int cntNum = int.Parse(this.numTbx.Text);
             if (cntNum == 1) return;
 
             cntNum--;
@@ -55,8 +59,12 @@ namespace HomeTest
 
         private void upBtn_Click(object sender, EventArgs e)
         {
-            int cntNum = Int32.Parse(this.numTbx.Text);
-            if (cntNum == this.maxPassenger) return;
+            int cntNum = int.Parse(this.numTbx.Text);
+            if (cntNum == this.maxPassenger)
+            {
+                ClearCalculatedRoute();
+                return;
+            }
 
             cntNum++;
             this.numTbx.Text = cntNum.ToString();
@@ -117,7 +125,7 @@ namespace HomeTest
 
         private void ClearCalculatedRoute()
         {
-            if (this.route != null) this.route.Clear();
+            if (this.calculatedRoute != null) this.calculatedRoute.Clear();
             this.routeLbx.Items.Clear();
         }
 
@@ -148,22 +156,22 @@ namespace HomeTest
             }
 
             // Calculate the travel route
-            route.Clear();
+            calculatedRoute.Clear();
             var spacecraft = DataSourceLoader.data.Crafts.FirstOrDefault(x => x.Name == this.craftCbx.SelectedItem.ToString());
-            int passengers = Int32.Parse(this.numTbx.Text);
+            int passengers = int.Parse(this.numTbx.Text);
 
             // Calculate available travel distance of the selected spacecraft
-            int travelDistance = spacecraft.Distance * spacecraft.Tank;
+            double travelDistance = spacecraft.Distance;
             if (passengers == spacecraft.Capacity)
-                travelDistance = (int)(travelDistance * 0.7);
+                travelDistance = travelDistance * 0.7;
 
             // Get distance from Earth to first planet
             int earthPosition = DataSourceLoader.data.Planets.FirstOrDefault(x => x.Name == "Earth").Position;
             var firstPoint = DataSourceLoader.data.Planets.FirstOrDefault(x => x.Name == this.selectedDests[0]);
-            int sumDistance = firstPoint.Distance;
-            
+            double sumDistance = firstPoint.Distance;
+
             // Check the spacecraft can travel to the next planet
-            if (!canTravelToNextPlanet(sumDistance+firstPoint.Distance, travelDistance, firstPoint.Name)) return;
+            if (!canTravelToNextPlanet(sumDistance + firstPoint.Distance, travelDistance, firstPoint.Name)) return;
 
             for (int i = 1; i < this.selectedDests.Count; i++)
             {
@@ -181,21 +189,21 @@ namespace HomeTest
                     sumDistance += firstPoint.Distance;
 
                 // Check the spacecraft can travel to the next planet
-                if (!canTravelToNextPlanet(sumDistance+secondPoint.Distance, travelDistance, secondPoint.Name)) break;
+                if (!canTravelToNextPlanet(sumDistance + secondPoint.Distance, travelDistance, secondPoint.Name)) break;
                 firstPoint = secondPoint;
             }
         }
 
-        private bool canTravelToNextPlanet(int sum, int max, string planet)
+        private bool canTravelToNextPlanet(double sum, double max, string planet)
         {
             if (sum < max)
             {
-                route.Add(planet);
+                calculatedRoute.Add(planet);
                 return true;
             }
             else if (sum == max)
             {
-                route.Add(planet);
+                calculatedRoute.Add(planet);
                 return false;
             }
             else
@@ -206,10 +214,10 @@ namespace HomeTest
 
         private void DisplayCalculatedRoute()
         {
-            if (this.route == null || this.route.Count == 0) return;
+            if (this.calculatedRoute == null || this.calculatedRoute.Count == 0) return;
 
             this.routeLbx.Items.Clear();
-            foreach (var route in this.route)
+            foreach (var route in this.calculatedRoute)
             {
                 this.routeLbx.Items.Add(route);
             }
@@ -242,47 +250,61 @@ namespace HomeTest
             return str;
         }
 
-        public void SetDataToControls(Dictionary<string, object> data)
+        public bool SetDataToControls(Dictionary<string, object> data)
         {
-            if (data == null || data == null || data.Count == 0) return;
+            if (data == null || data.Count == 0)
+                return false;
 
-            string name = (string)data["spacecraft"];
-            if (name != null && DataSourceLoader.data.Crafts.Any(c => c.Name == name)) 
-                this.craftCbx.SelectedItem = name;
+            string name = data["spacecraft"] != null ? data["spacecraft"].ToString() : null;
+            if (name == null && !DataSourceLoader.data.Crafts.Any(c => c.Name == name))
+                return false;
 
-            int passengers = Int32.Parse((string)data["passengers"]);
             var craft = DataSourceLoader.data.Crafts.FirstOrDefault<SpaceCraft>(c => c.Name == name);
-            if (passengers == 0 || craft == null) return;
+            int passengers = int.Parse(data["passengers"] != null ? data["passengers"].ToString() : "0");
+            if (passengers == 0 || craft == null || passengers > craft.Capacity)
+                return false;
 
-            maxPassenger = craft.Capacity;
-            if (passengers <= maxPassenger)
-                this.numTbx.Text = passengers.ToString();
+            string dests = data["destinations"] != null ? data["destinations"].ToString() : null;
+            if (dests == null)return false;
 
-            string dests = (string)data["destinations"];
-            if (dests == null) return;
-
-            ClearSelectedDestination();
+            var destList = new List<string>();
             foreach (var dest in dests.Split(','))
             {
-                if (DataSourceLoader.data.Planets.Any(p => p.Name == dest))
-                {
-                    this.selectedDests.Add(dest);
-                    this.destLbx.Items.Add(dest);
-                }
+                if (!DataSourceLoader.data.Planets.Any(p => p.Name == dest)) return false;
+                destList.Add(dest);
             }
 
-            string route = (string)data["route"];
-            if (route == null) return;
+            string route = data["route"] != null ? data["route"].ToString() : null;
+            if (route == null) return false;
 
-            ClearCalculatedRoute();
+            var routeList = new List<string>();
             foreach (var planet in route.Split(','))
             {
-                if (DataSourceLoader.data.Planets.Any(p => p.Name == planet))
-                {
-                    this.route.Add(planet);
-                    this.routeLbx.Items.Add(planet);
-                }
+                if (!DataSourceLoader.data.Planets.Any(p => p.Name == planet)) return false;
+                routeList.Add(planet);
             }
+
+            // Display data
+            this.craftCbx.SelectedIndex = this.craftCbx.FindStringExact(name);
+
+            this.maxPassenger = craft.Capacity;
+            this.numTbx.Text = passengers.ToString();
+
+            ClearSelectedDestination();
+            foreach (var item in destList)
+            {
+                this.destLbx.Items.Add(item);
+            }
+            this.selectedDests = destList;
+
+            ClearCalculatedRoute();
+            foreach (var item in routeList)
+            {
+                this.routeLbx.Items.Add(item);
+            }
+            this.calculatedRoute = routeList;
+
+            return true;
         }
 
         private void saveBtn_Click(object sender, EventArgs e)
