@@ -8,6 +8,6 @@ This program is to generate a route for a space trip. Users can select a spacesh
 
 ## User Interfaces  
 <p float="left">
-<img height=400 src="https://github.com/DaeunSim/aerospace-assignment/assets/49071747/a390ec4a-3646-4714-87fb-d4dcb6467767"> &nbsp; 
-<img height=400 src="https://github.com/DaeunSim/aerospace-assignment/assets/49071747/e0205859-5094-4e6a-8560-fb6c9bdef893">
+<img height=350 src="https://github.com/DaeunSim/aerospace-assignment/assets/49071747/a390ec4a-3646-4714-87fb-d4dcb6467767"> &nbsp; 
+<img height=350 src="https://github.com/DaeunSim/aerospace-assignment/assets/49071747/e0205859-5094-4e6a-8560-fb6c9bdef893">
 </p>
